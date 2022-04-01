@@ -2,10 +2,15 @@ import { useState } from "react";
 import "./app.css";
 
 const App = () => {
-  const [cuenta, SetCuenta] = useState({ valor: 0, paso: 1 });
+  const [cuenta, SetCuenta] = useState({ valor: 0, paso: 1, /**Se agregó una nueva variable para poder restar */paso2: 1 });
 
   const handleClick = () => {
     SetCuenta({ /*Operador espread*/ ...cuenta, valor: cuenta.valor + cuenta.paso });
+  };
+
+  /*Se agregó una nueva variable para poder hacer el paso de la resta*/
+  const handleClickr = () => {
+    SetCuenta({ /*Operador espread*/ ...cuenta, valor: cuenta.valor - cuenta.paso2 });
   };
 
   const handleChange = (e) => {
@@ -15,7 +20,14 @@ const App = () => {
     }
     SetCuenta({ /*Operador espread*/ ...cuenta, paso: Number(e.target.value) });
   };
-//Un botón para restar y otro para reset
+  const handleChanger = (e) => {
+    const paso2 = Number(e.target.value);
+    if (isNaN(paso2)) {
+      return;
+    }
+    SetCuenta({ /*Operador espread*/ ...cuenta, paso2: Number(e.target.value) });
+  };
+//Tarea: Un botón para restar y otro para reset
 
   const handleKeyDown = (e) => {
     const value = Number(e.key);
@@ -47,7 +59,7 @@ const App = () => {
       <hr />
       <div className="margin-button">
         <label>
-          Paso
+          Paso con suma
           <input
             type=""
             style={{ width: "60px", margin: "5px" }}
@@ -61,6 +73,25 @@ const App = () => {
           onClick={ handleClick}
         >
           +{cuenta.paso}
+        </button>
+        {/* Label resta */}
+        <label>
+          Paso con resta
+          <input
+            type=""
+            style={{ width: "60px", margin: "5px" }}
+            onChange={handleChanger}
+            onKeyDown={handleKeyDown}
+
+          />
+        </label>
+        {/* Botón para restar*/}
+        <button
+          className="btn btn-primary me-2"
+          onClick={ handleClickr}
+        >
+          {/* llamando lo que tenemos en cuenta y el paso2 */}
+          -{cuenta.paso2}
         </button>
       </div>
     </div>
