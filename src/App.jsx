@@ -2,15 +2,30 @@ import { useState } from "react";
 import "./app.css";
 
 const App = () => {
-  const [cuenta, SetCuenta] = useState({ valor: 0, paso: 1, /**Se agregó una nueva variable para poder restar */paso2: 1 });
+  const [cuenta, SetCuenta] = useState({
+    valor: 0,
+    paso: 1,
+    /**Se agregó una nueva variable para poder restar */ paso2: 0,
+  });
 
+  // Agregando const para suma
   const handleClick = () => {
-    SetCuenta({ /*Operador espread*/ ...cuenta, valor: cuenta.valor + cuenta.paso });
+    SetCuenta({
+      /*Operador espread*/ ...cuenta,
+      valor: cuenta.valor + cuenta.paso,
+    });
   };
 
-  /*Se agregó una nueva variable para poder hacer el paso de la resta*/
+  /*Se agregó una nueva constante para poder hacer el paso de la resta*/
   const handleClickr = () => {
-    SetCuenta({ /*Operador espread*/ ...cuenta, valor: cuenta.valor - cuenta.paso2 });
+    SetCuenta({
+      /*Operador espread*/ ...cuenta,
+      valor: cuenta.valor - cuenta.paso2,
+    });
+  };
+  /*Se agregó una nueva constante para poder hacer el reset, tomando en cuenta que el valor inicial es cero*/
+  const handleClickre = () => {
+    SetCuenta({ /*jjjj*/ ...cuenta, valor: 0 });
   };
 
   const handleChange = (e) => {
@@ -25,13 +40,36 @@ const App = () => {
     if (isNaN(paso2)) {
       return;
     }
-    SetCuenta({ /*Operador espread*/ ...cuenta, paso2: Number(e.target.value) });
+    SetCuenta({
+      /*Operador espread*/ ...cuenta,
+      paso2: Number(e.target.value),
+    });
   };
-//Tarea: Un botón para restar y otro para reset
+
+  const handleChangeres = (e) => {
+    const paso2 = Number(e.target.value);
+    const paso = Number(e.target.value);
+    if (isNaN(paso2)) {
+      return;
+    }
+    if (isNaN(paso)) {
+      return;
+    }
+    SetCuenta({
+      /*Operador espread*/ ...cuenta,
+      paso: Number(e.target.value),
+    });
+
+    SetCuenta({
+      /*Operador espread*/ ...cuenta,
+      paso2: Number(e.target.value),
+    });
+  };
+  //Tarea: Un botón para restar y otro para reset
 
   const handleKeyDown = (e) => {
     const value = Number(e.key);
-    if(
+    if (
       e.key === "Backspace" ||
       e.key === "Enter" ||
       e.key === "Delete" ||
@@ -39,10 +77,9 @@ const App = () => {
       e.key === "ArrowRight" ||
       e.key === "ArrowUp" ||
       e.key === "ArrowDown" ||
-      e.key === "Tab" 
-    ){
+      e.key === "Tab"
+    ) {
       return;
-
     }
 
     if (isNaN(value) || e.key === " ") {
@@ -65,13 +102,9 @@ const App = () => {
             style={{ width: "60px", margin: "5px" }}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
-
           />
         </label>
-        <button
-          className="btn btn-primary me-2"
-          onClick={ handleClick}
-        >
+        <button className="btn btn-primary me-2" onClick={handleClick}>
           +{cuenta.paso}
         </button>
         {/* Label resta */}
@@ -82,16 +115,20 @@ const App = () => {
             style={{ width: "60px", margin: "5px" }}
             onChange={handleChanger}
             onKeyDown={handleKeyDown}
-
           />
         </label>
         {/* Botón para restar*/}
-        <button
-          className="btn btn-primary me-2"
-          onClick={ handleClickr}
+        <button className="btn btn-primary me-2" onClick={handleClickr}>
+          {/* llamando lo que tenemos en cuenta y el paso2 */}-{cuenta.paso2}
+        </button>
+        <br />
+        {/* Botón para reset*/}
+        <button className="btn btn-primary me-2" onClick={handleClickre}
+        onChange={handleKeyDown}
+        onChanges={handleChangeres}
         >
-          {/* llamando lo que tenemos en cuenta y el paso2 */}
-          -{cuenta.paso2}
+          {/* jan*/}
+          Reset: {cuenta.valor}
         </button>
       </div>
     </div>
